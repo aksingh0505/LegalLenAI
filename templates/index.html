@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LegalLenAI - Rental Agreement Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="overlay"></div>
+    
+    <!-- Main Container -->
+    <div class="main-container">
+        <header>
+            <h1><i class="fas fa-gavel"></i> LegalLenAI</h1>
+            <p class="subtitle">Intelligent Rental Agreement Analysis</p>
+        </header>
+
+        <!-- Document Input Section -->
+        <section class="input-section">
+            <h2><i class="fas fa-file-text"></i> Document Analysis</h2>
+            <div class="input-group">
+                <label for="doc_text" class="input-label">Paste your rental agreement text here:</label>
+                <textarea 
+                    name="doc_text" 
+                    id="doc_text" 
+                    placeholder="Paste your rental agreement text here for analysis..."
+                    aria-label="Rental agreement text input"
+                >{{ sample_agreement }}</textarea>
+                <div class="char-counter">
+                    <span id="charCount">0</span> characters
+                </div>
+            </div>
+        </section>
+
+        <!-- Action Buttons -->
+        <div class="btn-group">
+            <button type="button" id="summarizeBtn" class="action-btn">
+                <i class="fas fa-compress-alt"></i> Summarize
+            </button>
+            <button type="button" id="risksBtn" class="action-btn">
+                <i class="fas fa-exclamation-triangle"></i> Check Risks
+            </button>
+            <button type="button" id="clearBtn" class="action-btn secondary">
+                <i class="fas fa-trash"></i> Clear
+            </button>
+        </div>
+
+        <!-- Clause Explanation Section -->
+        <section class="explain-section">
+            <h2><i class="fas fa-question-circle"></i> Explain Legal Terms</h2>
+            <div class="input-group">
+                <label for="clauseInput" class="input-label">Enter a legal term to explain:</label>
+                <div class="clause-input-group">
+                    <input 
+                        type="text" 
+                        name="clause" 
+                        id="clauseInput" 
+                        placeholder="e.g., 'security deposit', 'rent escalation'"
+                        aria-label="Legal term to explain"
+                    >
+                    <button type="button" id="explainBtn" class="action-btn">
+                        <i class="fas fa-search"></i> Explain
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <div id="outputBox" class="output-section" style="display: none;">
+            <div class="output-header">
+                <h3 id="outputTitle">Analysis Results</h3>
+                <button type="button" id="closeOutput" class="close-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="resultText" class="result-content"></div>
+        </div>
+
+        <!-- Loading Indicator -->
+        <div id="loadingIndicator" class="loading" style="display: none;">
+            <i class="fas fa-spinner fa-spin"></i>
+            <span>Analyzing document...</span>
+        </div>
+    </div>
+
+    <!-- Sidebar for History -->
+    <div class="sidebar">
+        <h2><i class="fas fa-history"></i> Analysis History</h2>
+        <ul id="historyList">
+            <li class="history-item">Welcome to LegalLenAI</li>
+        </ul>
+        <button type="button" id="clearHistory" class="clear-history-btn">
+            <i class="fas fa-trash"></i> Clear History
+        </button>
+    </div>
+
+    <script>
+        // Global variables
+        let analysisHistory = [];
+
+        // Utility functions
+        async function postData(url = '', data = {}) {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams(data)
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            return response.json();
+        }
+
+        function showLoading() {
+            document.getElementById('loadingIndicator').style.display = 'flex';
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingIndicator').style.display = 'none';
+        }
+
+        function showOutput(title, content) {
+            document.getElementById('outputTitle').textContent = title;
+            document.getElementById('resultText').innerHTML = content;
+            document.getElementById('outputBox').style.display = 'block';
+        }
+
+        function hideOutput() {
+            document.getElementById('outputBox').style.display = 'none';
+        }
+
+        function updateCharCount() {
+            const text = document.getElementById('doc_text').value;
+            document.getElementById('charCount').textContent = text.length;
+        }
+
+        function addToHistory(action, result) {
+            const timestamp = new Date().toLocaleTimeString();
+            const historyItem = {
+                action,
+                timestamp,
+                result: result.substring(0, 100) + (result.length > 100 ? '...' : '')
+            };
+            
+            analysisHistory.unshift(historyItem);
+            if (analysisHistory.length > 10) {
+                analysisHistory = analysisHistory.slice(0, 10);
+            }
+            
+            updateHistoryDisplay();
+        }
+
+        function updateHistoryDisplay() {
+            const historyList = document.getElementById('historyList');
+            historyList.innerHTML = '<li class="history-item">Welcome to LegalLenAI</li>';
+            
+            analysisHistory.forEach(item => {
+                const li = document.createElement('li');
+                li.className = 'history-item';
+                li.innerHTML = `
+                    <div class="history-action">${item.action}</div>
+                    <div class="history-time">${item.timestamp}</div>
+                    <div class="history-preview">${item.result}</div>
+                `;
+                historyList.appendChild(li);
+            });
+        }
+
+        function formatSummaryResult(data) {
+            let html = `<div class="summary-result">
+                <div class="summary-content">${data.summary.replace(/\n/g, '<br>')}</div>
+                <div class="summary-stats">
+                    <span class="stat-item">Original: ${data.original_word_count} words</span>
+                    <span class="stat-item">Summary: ${data.summary_word_count} words</span>
+                </div>
+            </div>`;
+            return html;
+        }
+
+        function formatRisksResult(data) {
+            let html = `<div class="risks-result">
+                <div class="risk-score risk-${data.risk_score.toLowerCase()}">
+                    <i class="fas fa-shield-alt"></i>
+                    Risk Score: ${data.risk_score} (${data.total_risks} issues found)
+                </div>`;
+            
+            if (data.risk_categories && data.risk_categories.length > 0) {
+                html += '<div class="risk-categories">';
+                data.risk_categories.forEach(category => {
+                    html += `<div class="risk-category">
+                        <h4><i class="fas fa-folder"></i> ${category.category} (${category.count})</h4>
+                        <ul class="risk-list">`;
+                    category.risks.forEach(risk => {
+                        html += `<li class="risk-item risk-${risk.severity.toLowerCase()}">
+                            <span class="risk-keyword">${risk.keyword}</span>
+                            <span class="risk-description">${risk.description}</span>
+                        </li>`;
+                    });
+                    html += '</ul></div>';
+                });
+                html += '</div>';
+            }
+            
+            if (data.missing_clauses && data.missing_clauses.length > 0) {
+                html += `<div class="missing-clauses">
+                    <h4><i class="fas fa-exclamation-circle"></i> Missing Important Clauses:</h4>
+                    <ul>${data.missing_clauses.map(clause => `<li>${clause}</li>`).join('')}</ul>
+                </div>`;
+            }
+            
+            html += '</div>';
+            return html;
+        }
+
+        function formatExplainResult(data) {
+            let html = `<div class="explain-result">
+                <div class="explanation-content">${data.explanation}</div>
+                <div class="explanation-meta">
+                    <span class="source">Source: ${data.source}</span>
+                    ${data.clause ? `<span class="matched-clause">Matched: ${data.clause}</span>` : ''}
+                </div>`;
+            
+            if (data.suggestions && data.suggestions.length > 0) {
+                html += `<div class="suggestions">
+                    <h4>Related Terms:</h4>
+                    <div class="suggestion-tags">${data.suggestions.map(term => 
+                        `<span class="suggestion-tag" onclick="searchTerm('${term}')">${term}</span>`
+                    ).join('')}</div>
+                </div>`;
+            }
+            
+            html += '</div>';
+            return html;
+        }
+
+        function searchTerm(term) {
+            document.getElementById('clauseInput').value = term;
+            document.getElementById('explainBtn').click();
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Character counter
+            document.getElementById('doc_text').addEventListener('input', updateCharCount);
+            updateCharCount();
+
+            // Summarize button
+            document.getElementById('summarizeBtn').addEventListener('click', async function() {
+                const text = document.getElementById('doc_text').value;
+                if (!text.trim()) {
+                    alert('Please enter some text to summarize.');
+                    return;
+                }
+
+                showLoading();
+                try {
+                    const data = { doc_text: text };
+                    const result = await postData('/summarize', data);
+                    showOutput('Document Summary', formatSummaryResult(result));
+                    addToHistory('Summary Generated', result.summary);
+                } catch (error) {
+                    showOutput('Error', `<div class="error">Failed to summarize document: ${error.message}</div>`);
+                } finally {
+                    hideLoading();
+                }
+            });
+
+            // Risks button
+            document.getElementById('risksBtn').addEventListener('click', async function() {
+                const text = document.getElementById('doc_text').value;
+                if (!text.trim()) {
+                    alert('Please enter some text to analyze for risks.');
+                    return;
+                }
+
+                showLoading();
+                try {
+                    const data = { doc_text: text };
+                    const result = await postData('/risks', data);
+                    showOutput('Risk Analysis', formatRisksResult(result));
+                    addToHistory('Risk Analysis', `Found ${result.total_risks} risks`);
+                } catch (error) {
+                    showOutput('Error', `<div class="error">Failed to analyze risks: ${error.message}</div>`);
+                } finally {
+                    hideLoading();
+                }
+            });
+
+            // Explain button
+            document.getElementById('explainBtn').addEventListener('click', async function() {
+                const clause = document.getElementById('clauseInput').value;
+                if (!clause.trim()) {
+                    alert('Please enter a legal term to explain.');
+                    return;
+                }
+
+                showLoading();
+                try {
+                    const data = { clause: clause };
+                    const result = await postData('/explain', data);
+                    showOutput('Clause Explanation', formatExplainResult(result));
+                    addToHistory('Clause Explained', result.explanation);
+                } catch (error) {
+                    showOutput('Error', `<div class="error">Failed to explain clause: ${error.message}</div>`);
+                } finally {
+                    hideLoading();
+                }
+            });
+
+            // Clear button
+            document.getElementById('clearBtn').addEventListener('click', function() {
+                document.getElementById('doc_text').value = '';
+                document.getElementById('clauseInput').value = '';
+                updateCharCount();
+                hideOutput();
+            });
+
+            // Close output button
+            document.getElementById('closeOutput').addEventListener('click', hideOutput);
+
+            // Clear history button
+            document.getElementById('clearHistory').addEventListener('click', function() {
+                analysisHistory = [];
+                updateHistoryDisplay();
+            });
+
+            // Enter key for clause input
+            document.getElementById('clauseInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    document.getElementById('explainBtn').click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
