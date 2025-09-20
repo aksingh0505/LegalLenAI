@@ -1,0 +1,262 @@
+{
+  "explanations": {
+    "security deposit": {
+      "definition": "A lump sum the tenant pays in advance, usually refundable at the end of the lease minus damages.",
+      "importance": "HIGH",
+      "category": "financial",
+      "typical_amount": "1-3 months rent",
+      "refund_conditions": "Minus any damages beyond normal wear and tear"
+    },
+    "maintenance charges": {
+      "definition": "Monthly costs tenants may need to pay for upkeep of common areas or repairs.",
+      "importance": "MEDIUM",
+      "category": "financial",
+      "typical_amount": "Rs. 500-2000 per month",
+      "covers": "Common area maintenance, security, water tank cleaning"
+    },
+    "termination clause": {
+      "definition": "Defines when and how either landlord or tenant can end the agreement early.",
+      "importance": "HIGH",
+      "category": "legal",
+      "notice_period": "1-3 months typically",
+      "penalties": "May include forfeiture of security deposit"
+    },
+    "lock-in period": {
+      "definition": "The minimum time (e.g., 11 months) a tenant must stay before being allowed to leave without penalty.",
+      "importance": "HIGH",
+      "category": "operational",
+      "typical_duration": "6-12 months",
+      "penalty": "Loss of security deposit if leaving early"
+    },
+    "subletting": {
+      "definition": "Renting the house/flat to another person without landlord permission. Often restricted.",
+      "importance": "MEDIUM",
+      "category": "restrictions",
+      "permission_required": "Usually requires written landlord consent",
+      "penalties": "May result in immediate termination"
+    },
+    "late payment": {
+      "definition": "Extra charges or penalties if rent is not paid by the due date.",
+      "importance": "MEDIUM",
+      "category": "financial",
+      "typical_penalty": "Rs. 100-500 per day or 5-10% of rent",
+      "grace_period": "Usually 5-7 days"
+    },
+    "indemnity": {
+      "definition": "Means the tenant may have to compensate the landlord for losses caused by tenant's actions.",
+      "importance": "HIGH",
+      "category": "legal",
+      "scope": "Covers damages, legal costs, and third-party claims",
+      "limitations": "Should not be unlimited or unreasonable"
+    },
+    "eviction": {
+      "definition": "Forcing the tenant to vacate the property due to non-payment, breach, or illegal activity.",
+      "importance": "HIGH",
+      "category": "legal",
+      "grounds": "Non-payment, breach of terms, illegal activities",
+      "process": "Must follow legal eviction procedures"
+    },
+    "rent escalation": {
+      "definition": "Yearly increase in rent, often by 5–10%.",
+      "importance": "HIGH",
+      "category": "financial",
+      "typical_rate": "5-15% annually",
+      "notice_required": "Usually 1-2 months advance notice"
+    },
+    "notice period": {
+      "definition": "Time tenant or landlord must give before ending the lease (commonly 1–3 months).",
+      "importance": "HIGH",
+      "category": "operational",
+      "typical_duration": "1-3 months",
+      "written_required": "Usually must be in writing"
+    },
+    "utilities": {
+      "definition": "Tenant's responsibility to pay for electricity, water, gas, internet bills.",
+      "importance": "MEDIUM",
+      "category": "property",
+      "includes": "Electricity, water, gas, internet, cable TV",
+      "exclusions": "Property tax, maintenance charges (usually landlord's responsibility)"
+    },
+    "property damage": {
+      "definition": "Tenant is liable for damages beyond normal wear and tear.",
+      "importance": "MEDIUM",
+      "category": "property",
+      "exclusions": "Normal wear and tear, structural issues",
+      "assessment": "Usually assessed at time of vacating"
+    },
+    "furnishing": {
+      "definition": "Responsibility of maintaining provided furniture and appliances.",
+      "importance": "LOW",
+      "category": "property",
+      "tenant_duties": "Keep clean, report damages, minor repairs",
+      "landlord_duties": "Major repairs and replacements"
+    },
+    "pets": {
+      "definition": "Rules regarding whether pets are allowed in the property.",
+      "importance": "LOW",
+      "category": "restrictions",
+      "common_restrictions": "No pets, small pets only, additional deposit",
+      "penalties": "May result in immediate termination"
+    },
+    "visitor restriction": {
+      "definition": "Limits on how long guests can stay without landlord approval.",
+      "importance": "LOW",
+      "category": "restrictions",
+      "typical_limit": "7-15 days",
+      "approval_required": "For longer stays"
+    },
+    "registration": {
+      "definition": "Requirement to register the rental agreement at the local sub-registrar office.",
+      "importance": "HIGH",
+      "category": "legal",
+      "cost": "Usually 1% of annual rent",
+      "validity": "Makes agreement legally enforceable"
+    },
+    "stamp duty": {
+      "definition": "Government tax to make the agreement legally valid.",
+      "importance": "HIGH",
+      "category": "legal",
+      "rate": "Usually 0.25% of annual rent",
+      "responsibility": "Usually shared between landlord and tenant"
+    },
+    "rent due date": {
+      "definition": "The specific day of the month when rent must be paid.",
+      "importance": "MEDIUM",
+      "category": "financial",
+      "typical_date": "1st to 5th of every month",
+      "late_fees": "Applied after due date"
+    },
+    "advance rent": {
+      "definition": "Rent collected in advance for one or more months.",
+      "importance": "MEDIUM",
+      "category": "financial",
+      "typical_amount": "1-2 months rent",
+      "refundable": "Usually refundable at end of tenancy"
+    },
+    "property use": {
+      "definition": "Defines the purpose – usually residential only, not commercial.",
+      "importance": "HIGH",
+      "category": "restrictions",
+      "common_restrictions": "Residential use only, no commercial activities",
+      "penalties": "May result in immediate termination"
+    },
+    "renewal clause": {
+      "definition": "Tenant's right to renew the agreement after expiry, often with revised rent.",
+      "importance": "MEDIUM",
+      "category": "operational",
+      "notice_required": "Usually 1-2 months before expiry",
+      "rent_revision": "Subject to market rates and mutual agreement"
+    },
+    "landlord access": {
+      "definition": "Conditions under which landlord can enter the property (e.g., repairs).",
+      "importance": "MEDIUM",
+      "category": "operational",
+      "notice_required": "Usually 24-48 hours advance notice",
+      "emergency_access": "Immediate access for emergencies"
+    },
+    "dispute resolution": {
+      "definition": "How legal disputes will be handled, usually via arbitration or local courts.",
+      "importance": "HIGH",
+      "category": "legal",
+      "common_methods": "Arbitration, local courts, mediation",
+      "jurisdiction": "Usually local court where property is located"
+    },
+    "force majeure": {
+      "definition": "Events like natural disasters that excuse either party from fulfilling the contract.",
+      "importance": "LOW",
+      "category": "legal",
+      "examples": "Natural disasters, government orders, pandemics",
+      "effect": "Suspends obligations temporarily"
+    },
+    "habitable condition": {
+      "definition": "Landlord's responsibility to provide basic facilities like water, electricity, and safety.",
+      "importance": "HIGH",
+      "category": "property",
+      "includes": "Water supply, electricity, basic safety measures",
+      "tenant_rights": "Right to habitable living conditions"
+    }
+  },
+  "risky_keywords": [
+    "security deposit",
+    "maintenance charges",
+    "termination clause",
+    "lock-in period",
+    "subletting",
+    "late payment",
+    "indemnity",
+    "eviction",
+    "rent escalation",
+    "notice period",
+    "utilities",
+    "property damage",
+    "furnishing",
+    "pets",
+    "visitor restriction",
+    "registration",
+    "stamp duty",
+    "rent due date",
+    "advance rent",
+    "property use",
+    "renewal clause",
+    "landlord access",
+    "dispute resolution",
+    "force majeure",
+    "habitable condition"
+  ],
+  "risk_categories": {
+    "financial": {
+      "keywords": ["security deposit", "rent escalation", "late payment", "advance rent", "maintenance charges"],
+      "description": "Financial obligations and monetary risks",
+      "severity": "HIGH"
+    },
+    "legal": {
+      "keywords": ["termination clause", "eviction", "indemnity", "dispute resolution", "registration", "stamp duty"],
+      "description": "Legal compliance and enforcement issues",
+      "severity": "HIGH"
+    },
+    "operational": {
+      "keywords": ["lock-in period", "subletting", "notice period", "landlord access", "visitor restriction"],
+      "description": "Day-to-day operational restrictions and requirements",
+      "severity": "MEDIUM"
+    },
+    "property": {
+      "keywords": ["utilities", "property damage", "furnishing", "habitable condition", "property use"],
+      "description": "Property maintenance and usage responsibilities",
+      "severity": "MEDIUM"
+    },
+    "restrictions": {
+      "keywords": ["pets", "visitor restriction", "subletting", "property use"],
+      "description": "Usage restrictions and limitations",
+      "severity": "LOW"
+    }
+  },
+  "important_clauses": [
+    "rent due date",
+    "security deposit",
+    "notice period",
+    "termination clause",
+    "rent escalation",
+    "utilities",
+    "maintenance charges",
+    "property damage",
+    "dispute resolution"
+  ],
+  "legal_requirements": {
+    "registration": {
+      "required": true,
+      "cost": "1% of annual rent",
+      "validity": "Makes agreement legally enforceable"
+    },
+    "stamp_duty": {
+      "required": true,
+      "rate": "0.25% of annual rent",
+      "responsibility": "Shared between parties"
+    },
+    "notice_period": {
+      "minimum": "1 month",
+      "recommended": "2-3 months",
+      "written_required": true
+    }
+  },
+  "sample_rental_agreement": "The tenant shall pay a security deposit of 2 months' rent. Rent is due on the 5th of every month. Late payment of rent shall attract a penalty of 5%. The agreement has a lock-in period of 11 months. Subletting is strictly prohibited without the landlord's written consent. Rent will escalate by 8% every year. The tenant must pay for utilities such as electricity, water, and internet. Pets are not allowed. The landlord may enter the premises with 24 hours notice for repairs. Either party may invoke the termination clause by giving 2 months' notice. The tenant shall be liable for property damage beyond normal wear and tear. Disputes shall be settled under the jurisdiction of Delhi courts. Stamp duty and registration charges shall be borne equally by both parties."
+}
